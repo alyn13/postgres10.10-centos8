@@ -44,7 +44,7 @@ RUN useradd postgres
 
 # Create directory for data
 RUN mkdir -p /usr/local/pgsql/data && \
-    chown postgres /usr/local/pgsql/data && \
+    chown postgres /usr/local/pgsql/data
 
 # Set the PATH environment variable
 ENV PATH $PATH:/usr/local/pgsql/bin
