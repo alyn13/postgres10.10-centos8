@@ -43,14 +43,18 @@ RUN dnf remove -y \
 RUN groupadd postgres
 
 # Create a dedicated user for running PostgreSQL
-RUN useradd postgres -g postgres 
-#&& \
-#    echo 'postgres:password' | chpasswd
+RUN useradd postgres -g postgres
 
+#ENV POSTGRE_USER=postgres \
+#    POSTGRES_PASSWORD
+#    PG_HOME=/var/lib/postgresql \
+    
 # Create directory for data
 RUN mkdir -p /usr/local/pgsql/data && \
-    chown postgres:postgres -R /usr/local/pgsql/data && \
-    chown postgres:postgres -R /usr/local/pgsql/bin/postgres
+    chmod 775 -R /usr/local/pgsql/data && \
+    echo $(whoami) &&\
+    chown $(whoami) -R /usr/local/pgsql/data && \
+#    chown postgres:postgres -R /usr/local/pgsql/bin/postgres
 
 # Set the PATH environment variable
 ENV PATH $PATH:/usr/local/pgsql/bin
@@ -60,7 +64,8 @@ USER postgres
 
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
-    chown postgres:postgres /usr/local/pgsql/data/postgresql.conf && \
+    chown $(whoami) /usr/local/pgsql/data/postgresql.conf && \
+    echo $(whoami) && \
     chmod +r /usr/local/pgsql/data/postgresql.conf
     
 
@@ -68,4 +73,6 @@ RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
 EXPOSE 5432
 
 # Run PostgreSQL
-CMD ["/usr/local/pgsql/bin/postgres", "-D", "/usr/local/pgsql/data", "-c", "config_file=/usr/local/pgsql/data/postgresql.conf"]
+#CMD ["/usr/local/pgsql/bin/postgres", "-D", "/usr/local/pgsql/data", "-c", "config_file=/usr/local/pgsql/data/postgresql.conf"]
+#You can now start the database server using: /usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
+CMD ["pg_ctl", "start", "-D", "/usr/local/pgsql/data", "-l", "logfile"]
