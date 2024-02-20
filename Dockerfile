@@ -39,46 +39,33 @@ RUN dnf remove -y \
     dnf clean all && \
     rm -rf /usr/src/postgresql-10.10*
     
+# Create a group
+RUN groupadd postgres
+
 # Create a dedicated user for running PostgreSQL
-#RUN useradd postgres
+RUN useradd postgres -g postgres 
+#&& \
+#    echo 'postgres:password' | chpasswd
 
 # Create directory for data
 RUN mkdir -p /usr/local/pgsql/data && \
-#    chown -R postgres /usr/local/pgsql && \
-    ls -l /usr/local/pgsql && \
-#    chmod -R +r /usr/local/pgsql/data && \
-#    chown -R postgres /usr/local/pgsql/data && \ 
-#    ls -l /usr/local/pgsql && \
-    ls -l /usr/local/pgsql/data
-    
-#    chmod 666 /usr/local/pgsql/data
-#RUN mkdir -p /var/lib/postgresql/data && \
-#    chown postgres /var/lib/postgresql/data && \
-#    chmod 666 /var/lib/postgresql/data
-
-# Switch to the postgres user
-#USER postgres
-
+    chown postgres:postgres -R /usr/local/pgsql/data && \
+    chown postgres:postgres -R /usr/local/pgsql/bin/postgres
 
 # Set the PATH environment variable
 ENV PATH $PATH:/usr/local/pgsql/bin
 
+# Switch to the postgres user
+USER postgres
+
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
-    ls -l /usr/local/pgsql && \
-    ls -l /usr/local/pgsql/data && \
-#    chmod +r /usr/local/pgsql/data/postgresql.conf && \
-    ls -l /usr/local/pgsql/data/postgresql.conf
+    chown postgres:postgres /usr/local/pgsql/data/postgresql.conf && \
+    chmod +r /usr/local/pgsql/data/postgresql.conf
     
-#    chown postgres /usr/local/pgsql/data/postgresql.conf
-#RUN /usr/local/pgsql/bin/initdb -D /var/lib/postgresql/data && \
-#    chmod 777 /var/lib/postgresql/data/postgresql.conf
-#    chown postgres /var/lib/postgresql/data/postgresql.conf
 
 # Expose PostgreSQL port
 EXPOSE 5432
 
 # Run PostgreSQL
 CMD ["/usr/local/pgsql/bin/postgres", "-D", "/usr/local/pgsql/data", "-c", "config_file=/usr/local/pgsql/data/postgresql.conf"]
-#CMD ["/usr/local/pgsql/bin/postgres", "-D", "/var/lib/postgresql/data", "-c", "config_file=/var/lib/postgresql/data/postgresql.conf"]
-
