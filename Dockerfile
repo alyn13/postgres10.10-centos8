@@ -44,15 +44,16 @@ RUN useradd postgres
 
 # Create directory for data
 RUN mkdir -p /usr/local/pgsql/data && \
+    chown postgres /usr/local/pgsql && \
     chown postgres /usr/local/pgsql/data && \
     mkdir -p /var/lib/postgresql/data && \
     chown postgres /var/lib/postgresql/data
 
-# Set the PATH environment variable
-ENV PATH $PATH:/usr/local/pgsql/bin
-
 # Switch to the postgres user
 USER postgres
+
+# Set the PATH environment variable
+ENV PATH $PATH:/usr/local/pgsql/bin
 
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
