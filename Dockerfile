@@ -39,11 +39,10 @@ RUN dnf remove -y \
     dnf clean all && \
     rm -rf /usr/src/postgresql-10.10*
     
-# Create a group
-RUN groupadd postgres
-
-# Create a dedicated user for running PostgreSQL
-RUN useradd postgres -g postgres
+# Create a group and a dedicated user for running PostgreSQL
+RUN groupadd postgres && \
+    useradd postgres -g postgres && \
+    id postgress
 
 #ENV POSTGRE_USER=postgres \
 #    POSTGRES_PASSWORD
@@ -62,10 +61,12 @@ ENV PATH $PATH:/usr/local/pgsql/bin
 # Switch to the postgres user
 USER postgres
 
+
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
     chown $(whoami) /usr/local/pgsql/data/postgresql.conf && \
     echo $(whoami) && \
+    id postgress && \
     chmod +r /usr/local/pgsql/data/postgresql.conf
     
 
