@@ -53,7 +53,7 @@ RUN useradd postgres -g postgres
 RUN mkdir -p /usr/local/pgsql/data && \
     chmod 775 -R /usr/local/pgsql/data && \
     echo $(whoami) &&\
-    chown $(whoami) -R /usr/local/pgsql/data && \
+    chown $(whoami) -R /usr/local/pgsql/data
 #    chown postgres:postgres -R /usr/local/pgsql/bin/postgres
 
 # Set the PATH environment variable
