@@ -43,7 +43,9 @@ RUN dnf remove -y \
 RUN useradd postgres
 
 # Create directory for data
-RUN mkdir -p /var/lib/postgresql/data && \
+RUN mkdir -p /usr/local/pgsql/data && \
+    sudo chown postgres /usr/local/pgsql/data && \
+    mkdir -p /var/lib/postgresql/data && \
     chown postgres /var/lib/postgresql/data
 
 # Set the PATH environment variable
@@ -54,7 +56,7 @@ USER postgres
 
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
-    chmod 777 /usr/local/pgsql/data/postgresql.conf && \
+    sudo chmod 777 /usr/local/pgsql/data/postgresql.conf && \
     chown postgres /usr/local/pgsql/data/postgresql.conf
 
 # Expose PostgreSQL port
