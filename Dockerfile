@@ -46,7 +46,8 @@ RUN useradd postgres
 RUN mkdir -p /usr/local/pgsql/data && \
 #    chown -R postgres /usr/local/pgsql && \
     ls -l /usr/local/pgsql && \
-    chown -R postgres /usr/local/pgsql/data && \
+    chmod -R +r /usr/local/pgsql/data && \
+    chown -R postgres /usr/local/pgsql/data && \ 
     ls -l /usr/local/pgsql && \
     ls -l /usr/local/pgsql/data
     
