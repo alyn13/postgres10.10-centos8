@@ -43,11 +43,13 @@ RUN dnf remove -y \
 RUN useradd postgres
 
 # Create directory for data
-RUN mkdir -p /usr/local/pgsql/data && \
-    chown postgres /usr/local/pgsql && \
-    chown postgres /usr/local/pgsql/data && \
-    mkdir -p /var/lib/postgresql/data && \
-    chown postgres /var/lib/postgresql/data
+#RUN mkdir -p /usr/local/pgsql/data && \
+#    chown postgres /usr/local/pgsql && \
+#    chown postgres /usr/local/pgsql/data && \
+#    chmod 666 /usr/local/pgsql/data && \
+RUN mkdir -p /var/lib/postgresql/data && \
+    chown postgres /var/lib/postgresql/data && \
+    chmod 666 var/lib/postgresql/data
 
 # Switch to the postgres user
 USER postgres
@@ -56,12 +58,17 @@ USER postgres
 ENV PATH $PATH:/usr/local/pgsql/bin
 
 # Initialize the database
-RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
-    chmod 777 /usr/local/pgsql/data/postgresql.conf && \
-    chown postgres /usr/local/pgsql/data/postgresql.conf
+#RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
+#    chmod 777 /usr/local/pgsql/data/postgresql.conf && \
+#    chown postgres /usr/local/pgsql/data/postgresql.conf
+RUN /usr/local/pgsql/bin/initdb -D /var/lib/postgresql/data && \
+    chmod 777 /var/lib/postgresql/data/postgresql.conf
+#    chown postgres /var/lib/postgresql/data/postgresql.conf
 
 # Expose PostgreSQL port
 EXPOSE 5432
 
 # Run PostgreSQL
-CMD ["/usr/local/pgsql/bin/postgres", "-D", "/usr/local/pgsql/data", "-c", "config_file=/usr/local/pgsql/data/postgresql.conf"]
+#CMD ["/usr/local/pgsql/bin/postgres", "-D", "/usr/local/pgsql/data", "-c", "config_file=/usr/local/pgsql/data/postgresql.conf"]
+CMD ["/usr/local/pgsql/bin/postgres", "-D", "/var/lib/postgresql/data", "-c", "config_file=/var/lib/postgresql/data/postgresql.conf"]
+
