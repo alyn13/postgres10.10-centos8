@@ -49,7 +49,7 @@ RUN useradd postgres
 #    chmod 666 /usr/local/pgsql/data && \
 RUN mkdir -p /var/lib/postgresql/data && \
     chown postgres /var/lib/postgresql/data && \
-    chmod 666 var/lib/postgresql/data
+    chmod 666 /var/lib/postgresql/data
 
 # Switch to the postgres user
 USER postgres
