@@ -41,8 +41,8 @@ RUN dnf remove -y \
     
 # Create a group and a dedicated user for running PostgreSQL
 RUN groupadd postgres && \
-    useradd postgres -g postgres && \
-    id postgress
+    useradd -u 1500 postgres -g postgres && \
+    id postgres
 
 # Set an environment variable with the PostgreSQL user ID
 ENV POSTGRES_UID=$(id -u postgres)
