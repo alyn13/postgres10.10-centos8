@@ -40,15 +40,15 @@ RUN dnf remove -y \
     rm -rf /usr/src/postgresql-10.10*
     
 # Create a dedicated user for running PostgreSQL
-RUN useradd postgres
+#RUN useradd postgres
 
 # Create directory for data
 RUN mkdir -p /usr/local/pgsql/data && \
 #    chown -R postgres /usr/local/pgsql && \
     ls -l /usr/local/pgsql && \
-    chmod -R +r /usr/local/pgsql/data && \
-    chown -R postgres /usr/local/pgsql/data && \ 
-    ls -l /usr/local/pgsql && \
+#    chmod -R +r /usr/local/pgsql/data && \
+#    chown -R postgres /usr/local/pgsql/data && \ 
+#    ls -l /usr/local/pgsql && \
     ls -l /usr/local/pgsql/data
     
 #    chmod 666 /usr/local/pgsql/data
@@ -57,7 +57,7 @@ RUN mkdir -p /usr/local/pgsql/data && \
 #    chmod 666 /var/lib/postgresql/data
 
 # Switch to the postgres user
-USER postgres
+#USER postgres
 
 
 # Set the PATH environment variable
@@ -67,7 +67,7 @@ ENV PATH $PATH:/usr/local/pgsql/bin
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
     ls -l /usr/local/pgsql && \
     ls -l /usr/local/pgsql/data && \
-    chmod +r /usr/local/pgsql/data/postgresql.conf && \
+#    chmod +r /usr/local/pgsql/data/postgresql.conf && \
     ls -l /usr/local/pgsql/data/postgresql.conf
     
 #    chown postgres /usr/local/pgsql/data/postgresql.conf
