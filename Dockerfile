@@ -44,6 +44,8 @@ RUN groupadd postgres && \
     useradd postgres -g postgres && \
     id postgress
 
+# Set an environment variable with the PostgreSQL user ID
+ENV POSTGRES_UID=$(id -u postgres)
 #ENV POSTGRE_USER=postgres \
 #    POSTGRES_PASSWORD
 #    PG_HOME=/var/lib/postgresql \
@@ -60,7 +62,6 @@ ENV PATH $PATH:/usr/local/pgsql/bin
 
 # Switch to the postgres user
 USER postgres
-
 
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
