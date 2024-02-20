@@ -67,8 +67,9 @@ ENV PATH $PATH:/usr/local/pgsql/bin
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
     ls -l /usr/local/pgsql && \
     ls -l /usr/local/pgsql/data && \
+    chmod +r /usr/local/pgsql/data/postgresql.conf && \
     ls -l /usr/local/pgsql/data/postgresql.conf
-#    chmod 777 /usr/local/pgsql/data/postgresql.conf && \
+    
 #    chown postgres /usr/local/pgsql/data/postgresql.conf
 #RUN /usr/local/pgsql/bin/initdb -D /var/lib/postgresql/data && \
 #    chmod 777 /var/lib/postgresql/data/postgresql.conf
