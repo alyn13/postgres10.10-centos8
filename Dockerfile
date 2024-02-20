@@ -54,7 +54,8 @@ USER postgres
 
 # Initialize the database
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
-    chown postgres /usr/local/pgsql/data/postgresql.conf
+    chown postgres /usr/local/pgsql/data/postgresql.conf && \
+    chmod 644 /usr/local/pgsql/data/postgresql.conf
 
 # Expose PostgreSQL port
 EXPOSE 5432
