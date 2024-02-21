@@ -41,11 +41,11 @@ RUN dnf remove -y \
     
 # Create a group and a dedicated user for running PostgreSQL
 RUN groupadd postgres && \
-    useradd -u 1500 postgres -g postgres && \
+    useradd -u 1001 postgres -g postgres && \
     id postgres
 
 # Set an environment variable with the PostgreSQL user ID
-ENV POSTGRES_UID=$(id -u postgres)
+#ENV POSTGRES_UID=$(id -u postgres)
 #ENV POSTGRE_USER=postgres \
 #    POSTGRES_PASSWORD
 #    PG_HOME=/var/lib/postgresql \
