@@ -67,7 +67,7 @@ USER postgres
 RUN /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data && \
     chown $(whoami) /usr/local/pgsql/data/postgresql.conf && \
     echo $(whoami) && \
-    id postgress && \
+    id postgres && \
     chmod +r /usr/local/pgsql/data/postgresql.conf
     
 
